@@ -199,3 +199,68 @@ describe "sorting lines", ->
           lithium
           Lithium
         """
+
+  describe "international character sorting", ->
+    it "sorts danish characters when locale language", ->
+      editor.setText """
+        å
+        ø
+        æ
+      """
+
+      sortLineCaseInsensitive ->
+        expect(editor.getText()).not.toBe """
+          æ
+          ø
+          å
+        """
+
+        atom.config.set('sort-lines.localeLanguage', 'da-DK')
+        sortLineCaseInsensitive ->
+          expect(editor.getText()).toBe """
+            æ
+            ø
+            å
+          """
+
+    it "sorts german umlaut characters", ->
+      editor.setText """
+        ü
+        ä
+        ö
+        o
+        u
+        a
+      """
+
+      atom.config.set('sort-lines.localeLanguage', 'de-DE')
+      sortLineCaseInsensitive ->
+        expect(editor.getText()).toBe """
+          a
+          ä
+          o
+          ö
+          u
+          ü
+        """
+
+    it "sorts swedish umlaut characters", ->
+      editor.setText """
+        ü
+        ä
+        ö
+        o
+        u
+        a
+      """
+
+      atom.config.set('sort-lines.localeLanguage', 'sv')
+      sortLineCaseInsensitive ->
+        expect(editor.getText()).toBe """
+          a
+          o
+          u
+          ü
+          ä
+          ö
+        """
