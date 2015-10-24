@@ -1,6 +1,11 @@
 RangeFinder = require './range-finder'
 
 module.exports =
+  config:
+    localeLanguage:
+      type: 'string'
+      default: ''
+
   activate: ->
     atom.commands.add 'atom-text-editor',
       'sort-lines:sort': ->
@@ -25,11 +30,11 @@ sortTextLines = (editor, sorter) ->
 
 sortLines = (editor) ->
   sortTextLines editor, (textLines) ->
-    textLines.sort (a, b) -> a.localeCompare(b)
+    textLines.sort (a, b) -> a.localeCompare(b, getLocale())
 
 sortLinesReversed = (editor) ->
   sortTextLines editor, (textLines) ->
-    textLines.sort (a, b) -> b.localeCompare(a)
+    textLines.sort (a, b) -> b.localeCompare(a, getLocale())
 
 uniqueLines = (editor) ->
   sortTextLines editor, (textLines) ->
@@ -37,4 +42,7 @@ uniqueLines = (editor) ->
 
 sortLinesInsensitive = (editor) ->
   sortTextLines editor, (textLines) ->
-    textLines.sort (a, b) -> a.toLowerCase().localeCompare(b.toLowerCase())
+    textLines.sort (a, b) -> a.toLowerCase().localeCompare(b.toLowerCase(), getLocale())
+
+getLocale = ->
+  atom.config.get('sort-lines.localeLanguage') or undefined
