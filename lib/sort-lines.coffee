@@ -24,17 +24,17 @@ sortTextLines = (editor, sorter) ->
     editor.setTextInBufferRange(range, textLines.join("\n"))
 
 sortLines = (editor) ->
-   sortTextLines editor, (textLines) ->
+  sortTextLines editor, (textLines) ->
     textLines.sort (a, b) -> a.localeCompare(b)
 
 sortLinesReversed = (editor) ->
-   sortTextLines editor, (textLines) ->
+  sortTextLines editor, (textLines) ->
     textLines.sort (a, b) -> b.localeCompare(a)
 
 uniqueLines = (editor) ->
-   sortTextLines editor, (textLines) ->
+  sortTextLines editor, (textLines) ->
     textLines.filter (value, index, self) -> self.indexOf(value) == index
 
 sortLinesInsensitive = (editor) ->
-   sortTextLines editor, (textLines) ->
+  sortTextLines editor, (textLines) ->
     textLines.sort (a, b) -> a.toLowerCase().localeCompare(b.toLowerCase())
